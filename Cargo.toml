@@ -1,0 +1,12 @@
+[package]
+name = "styled-yew"
+version = "0.1.0"
+authors = ["IcyDefiance <icydefiance@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+lazy_static = "1.4.0"
+stdweb = "0.4.20"
+
+[workspace]
+members = ["example"]

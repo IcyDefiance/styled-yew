@@ -1,0 +1,20 @@
+{
+	"name": "runecraft-website",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"proxy": "http://localhost:8000",
+	"scripts": {
+		"start": "webpack-dev-server",
+		"webpack": "webpack"
+	},
+	"author": "",
+	"license": "UNLICENSED",
+	"devDependencies": {
+		"@wasm-tool/wasm-pack-plugin": "^1.1.0",
+		"html-webpack-plugin": "^3.2.0",
+		"webpack": "^4.41.5",
+		"webpack-cli": "^3.3.10",
+		"webpack-dev-server": "^3.10.1"
+	}
+}

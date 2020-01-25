@@ -1,11 +1,12 @@
 [package]
 name = "styled-yew"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["IcyDefiance <icydefiance@gmail.com>"]
 edition = "2018"
 description = "Scoped css for Yew"
 repository = "https://github.com/IcyDefiance/styled-yew"
 license = "MIT/Apache-2.0"
+readme = "README.md"
 exclude = ["example"]
 
 [dependencies]

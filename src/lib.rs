@@ -1,3 +1,5 @@
+mod css_rule;
+
 pub use stdweb;
 
 use lazy_static::lazy_static;
@@ -10,15 +12,6 @@ use std::{
 pub static NEXT_ID: AtomicUsize = AtomicUsize::new(0);
 lazy_static! {
 	pub static ref STYLE_STATES: RwLock<HashMap<TypeId, usize>> = RwLock::default();
-}
-
-// TODO: add all the css rules
-// BETTER TODO, MAYBE: use a proc macro to validate and minify a string
-#[rustfmt::skip]
-#[macro_export]
-macro_rules! css_rule {
-	(color) => {"color"};
-	(max_width) => {"max-width"};
 }
 
 #[macro_export]

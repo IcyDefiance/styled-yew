@@ -26,15 +26,15 @@ impl Component for Div {
 	}
 }
 
-styled!((red) Red : Div {
+styled!(Red : Div {
 	color: "red";
 });
 
-styled!((green) Green : Div {
+styled!(Green : Div {
 	color: "green";
 });
 
-styled!((blue) Blue : Div {
+styled!(Blue : Div {
 	color: "blue";
 });
 

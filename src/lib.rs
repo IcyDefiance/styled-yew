@@ -1,9 +1,16 @@
-pub use lazy_static;
 pub use stdweb;
 
-use std::sync::atomic::AtomicUsize;
+use lazy_static::lazy_static;
+use std::{
+	any::TypeId,
+	collections::HashMap,
+	sync::{atomic::AtomicUsize, RwLock},
+};
 
 pub static NEXT_ID: AtomicUsize = AtomicUsize::new(0);
+lazy_static! {
+	pub static ref STYLE_STATES: RwLock<HashMap<TypeId, usize>> = RwLock::default();
+}
 
 // TODO: add all the css rules
 // BETTER TODO, MAYBE: use a proc macro to validate and minify a string
@@ -11,24 +18,12 @@ pub static NEXT_ID: AtomicUsize = AtomicUsize::new(0);
 #[macro_export]
 macro_rules! css_rule {
 	(color) => {"color"};
-	(maxWidth) => {"max-width"};
+	(max_width) => {"max-width"};
 }
 
 #[macro_export]
 macro_rules! styled {
-	(($scope:ident) $name:ident : $child:ty { $($rule:ident : $val:expr);*; }) => {
-		// TODO: eliminate these variables, probably by using a proc macro, else figure out how to keep them private
-		// without forcing the user to provide an ident
-		mod $scope {
-			use $crate::lazy_static::lazy_static;
-			use std::sync::atomic::{AtomicBool, Ordering};
-
-			pub static ADDED_CSS: AtomicBool = AtomicBool::new(false);
-			lazy_static! {
-				pub static ref ID: String = $crate::NEXT_ID.fetch_add(1, Ordering::Relaxed).to_string();
-			}
-		}
-
+	($name:ident : $child:ty { $($rule:ident : $val:expr);*; }) => {
 		struct $name {
 			// TODO: store instance of child component and proxy each method to child, instead of sending props to child
 			// in the view method
@@ -47,33 +42,37 @@ macro_rules! styled {
 				use std::sync::Mutex;
 				use yew::NodeRef;
 
-				link.send_message(());
 				Self { props, link, node_ref: NodeRef::default(), added_class: false }
 			}
 
 			fn mounted(&mut self) -> ShouldRender {
-				use $scope::{ADDED_CSS, ID};
-				use std::sync::atomic::Ordering;
-				use $crate::stdweb::js;
+				use $crate::{stdweb::js, STYLE_STATES};
+				use std::{any::TypeId, sync::atomic::Ordering};
 
-				if !ADDED_CSS.swap(true, Ordering::AcqRel) {
+				let typeid = TypeId::of::<Self>();
+				if !STYLE_STATES.read().unwrap().contains_key(&typeid) {
+					let id = $crate::NEXT_ID.fetch_add(1, Ordering::Relaxed);
 					let rules = concat!($( $crate::css_rule!($rule), ":", $val, ";" )*);
 					js! {
 						const style = document.createElement("style");
 						document.head.appendChild(style);
-						style.sheet.insertRule(".sc" + @{&*ID} + "{" + @{rules} + "}");
+						style.sheet.insertRule(".sc" + @{id.to_string()} + "{" + @{rules} + "}");
 					}
+					STYLE_STATES.write().unwrap().insert(typeid, id);
 				}
+
+				self.link.send_message(());
 				false
 			}
 
 			fn update(&mut self, _msg: Self::Message) -> ShouldRender {
-				use $scope::ID;
-				use $crate::stdweb::{js, web::Element};
+				use $crate::{STYLE_STATES, stdweb::{js, web::Element}};
+				use std::any::TypeId;
 
 				if !self.added_class {
 					if let Some(el) = self.node_ref.try_into::<Element>() {
-						js! { @{el}.className += " sc" + @{&*ID}; };
+						let id = *STYLE_STATES.read().unwrap().get(&TypeId::of::<Self>()).unwrap();
+						js! { @{el}.className += " sc" + @{id.to_string()}; };
 						self.added_class = true;
 					} else {
 						self.link.send_message(());

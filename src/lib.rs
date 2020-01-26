@@ -16,8 +16,8 @@ lazy_static! {
 
 #[macro_export]
 macro_rules! styled {
-	($name:ident : $child:ty { $($rule:ident : $val:expr);*; }) => {
-		struct $name {
+	($vis:vis $name:ident : $child:ty { $($rule:ident : $val:expr);*; }) => {
+		$vis struct $name {
 			// TODO: store instance of child component and proxy each method to child, instead of sending props to child
 			// in the view method
 			props: <$child as Component>::Properties,

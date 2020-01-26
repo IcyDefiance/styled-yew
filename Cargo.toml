@@ -1,6 +1,6 @@
 [package]
 name = "styled-yew"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["IcyDefiance <icydefiance@gmail.com>"]
 edition = "2018"
 description = "Scoped css for Yew"

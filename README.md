@@ -4,7 +4,7 @@ CSS in Rust, similar to styled-components, but for Yew.
 
 ## Syntax
 
-    styled!(RedDiv : Div {
+    styled!(pub RedDiv : Div {
         color: "red";
     });
 

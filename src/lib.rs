@@ -48,7 +48,7 @@ macro_rules! styled {
 					id
 				});
 
-				let el = self.node_ref.try_into::<Element>().unwrap();
+				let el = self.node_ref.cast::<Element>().unwrap();
 				js! { @{el}.className += " sc" + @{id}; };
 
 				false

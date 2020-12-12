@@ -21,8 +21,12 @@ impl Component for Div {
 		false
 	}
 
+	fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+		false
+	}
+
 	fn view(&self) -> Html {
-		html! { <div>{ self.props.children.render() }</div> }
+		html! { <div>{ self.props.children.clone() }</div> }
 	}
 }
 
@@ -48,6 +52,10 @@ impl Component for App {
 	}
 
 	fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+		false
+	}
+
+	fn change(&mut self, _props: Self::Properties) -> ShouldRender {
 		false
 	}
 

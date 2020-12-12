@@ -9,6 +9,6 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 stdweb = "0.4.20"
-styled-yew = { path = "..", version = "0.2.0" }
+styled-yew = { path = ".." }
 wasm-bindgen = "0.2.58"
 yew = "0.17.4"

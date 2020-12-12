@@ -61,12 +61,12 @@ macro_rules! styled {
 						let style = document.create_element("style").unwrap().unchecked_into::<HtmlStyleElement>();
 						document.head().expect("no head").append_child(&style).unwrap();
 						let sheet = style.sheet().expect("no sheet").unchecked_into::<CssStyleSheet>();
-						sheet.insert_rule(&format!(".sc{} {{ {} }}", id, rules));
+						sheet.insert_rule(&format!(".sc{} {{ {} }}", id, rules)).unwrap();
 						id
 					});
 
 					let el = self.node_ref.cast::<Element>().unwrap();
-					el.class_list().add_1(&format!("sc{}", id));
+					el.class_list().add_1(&format!("sc{}", id)).unwrap();
 				}
 			}
 		}

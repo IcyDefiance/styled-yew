@@ -1,6 +1,6 @@
 use styled_yew::styled;
 use wasm_bindgen::prelude::*;
-use yew::{html, Children, Component, ComponentLink, Html, Properties, Renderable, ShouldRender};
+use yew::{html, Children, Component, ComponentLink, Html, Properties, ShouldRender};
 
 #[derive(Clone, Properties)]
 struct DivProps {
@@ -70,7 +70,7 @@ impl Component for App {
 	}
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(start)]
 pub fn main() {
 	yew::start_app::<App>();
 }

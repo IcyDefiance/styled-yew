@@ -1,6 +1,6 @@
 use styled_yew::styled;
 use wasm_bindgen::prelude::*;
-use yew::{html, Children, Component, ComponentLink, Html, Properties, Renderable, ShouldRender};
+use yew::{html, Children, Component, ComponentLink, Html, Properties, ShouldRender};
 
 #[derive(Clone, Properties)]
 struct DivProps {
@@ -21,8 +21,12 @@ impl Component for Div {
 		false
 	}
 
+	fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+		false
+	}
+
 	fn view(&self) -> Html {
-		html! { <div>{ self.props.children.render() }</div> }
+		html! { <div>{ self.props.children.clone() }</div> }
 	}
 }
 
@@ -51,6 +55,10 @@ impl Component for App {
 		false
 	}
 
+	fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+		false
+	}
+
 	fn view(&self) -> Html {
 		html! {
 			<>
@@ -62,7 +70,7 @@ impl Component for App {
 	}
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(start)]
 pub fn main() {
 	yew::start_app::<App>();
 }

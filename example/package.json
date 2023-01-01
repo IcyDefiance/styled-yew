@@ -12,7 +12,7 @@
 	"license": "UNLICENSED",
 	"devDependencies": {
 		"@wasm-tool/wasm-pack-plugin": "^1.3.1",
-		"html-webpack-plugin": "^4.5.0",
+		"html-webpack-plugin": "^5.5.0",
 		"webpack": "^5.10.1",
 		"webpack-cli": "^4.2.0",
 		"webpack-dev-server": "^3.11.0"
